@@ -10,7 +10,9 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>abstractnode</module>
         <module>abstractservernode</module>
+        <module>abstractclientnode</module>
         <module>datanode</module>
         <module>discoverynode</module>
         <module>gateway</module>

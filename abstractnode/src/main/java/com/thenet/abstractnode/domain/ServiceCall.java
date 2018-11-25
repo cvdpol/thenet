@@ -1,4 +1,4 @@
-package com.thenet.abstractservernode.domain;
+package com.thenet.abstractnode.domain;
 
 public class ServiceCall {
 

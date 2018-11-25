@@ -1,11 +1,10 @@
-package com.thenet.abstractservernode;
+package com.thenet.abstractnode;
 
 
 import com.hazelcast.config.Config;
 import com.hazelcast.config.MemberAttributeConfig;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.MembershipListener;
 import com.thenet.abstractnode.member.MemberAttributeType;
 
 import java.util.HashMap;
@@ -13,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class AbstractServerNode {
+public class AbstractNode {
 
-    private static final Logger LOGGER = Logger.getLogger(AbstractServerNode.class.getClass().getName());
+    private static final Logger LOGGER = Logger.getLogger(AbstractNode.class.getClass().getName());
 
     private HazelcastInstance instance;
 
@@ -23,18 +22,12 @@ public class AbstractServerNode {
         GATEWAY, DISCOVERY, DATA
     }
 
-    public AbstractServerNode(final NODETYPE nodeType, final String name, final Integer version,
+    public AbstractNode(final NODETYPE nodeType, final String name, final Integer version,
                               final List<String> topics) {
         Config cfg = new Config();
         cfg.setMemberAttributeConfig(createMemberAttributeConfig(nodeType, name, version, topics));
         instance = Hazelcast.newHazelcastInstance(cfg);
     }
-
-
-    public void addMembershipListener(MembershipListener membershipListener) {
-        instance.getCluster().addMembershipListener(membershipListener);
-    }
-
 
     private MemberAttributeConfig createMemberAttributeConfig(final NODETYPE nodeType,
                                                               final String name, final Integer version,

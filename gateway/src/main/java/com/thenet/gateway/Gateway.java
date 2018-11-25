@@ -1,7 +1,7 @@
 package com.thenet.gateway;
 
+import com.thenet.abstractnode.domain.ServiceCall;
 import com.thenet.abstractservernode.AbstractServerNode;
-import com.thenet.abstractservernode.domain.ServiceCall;
 
 import java.util.Arrays;
 import java.util.Map;
