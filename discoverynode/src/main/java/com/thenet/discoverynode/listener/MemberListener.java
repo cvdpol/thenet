@@ -1,6 +1,6 @@
 package com.thenet.discoverynode.listener;
 
-import com.thenet.abstractnode.member.MemberInformation;
+import com.thenet.abstractservernode.member.MemberInformation;
 
 public interface MemberListener {
 

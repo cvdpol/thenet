@@ -13,7 +13,7 @@ public class Gateway extends AbstractServerNode {
     protected Map<String, ServiceCall> serviceCallMap;
 
     public Gateway(final String name, final Integer version) {
-        super(NODETYPE.GATEWAY, name, version, Arrays.asList(TOPIC_GATEWAY));
+        super(AbstractServerNode.NODETYPE.GATEWAY, name, version, Arrays.asList(TOPIC_GATEWAY));
         //serviceCallMap = getInstance().getMap("serviceCallMap");
     }
 

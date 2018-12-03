@@ -3,9 +3,9 @@ package com.thenet.discoverynode.listener;
 import com.hazelcast.core.MemberAttributeEvent;
 import com.hazelcast.core.MembershipEvent;
 import com.hazelcast.core.MembershipListener;
-import com.thenet.abstractnode.AbstractNode;
-import com.thenet.abstractnode.member.MemberAttributeType;
-import com.thenet.abstractnode.member.MemberInformation;
+import com.thenet.abstractservernode.AbstractServerNode;
+import com.thenet.abstractservernode.member.MemberAttributeType;
+import com.thenet.abstractservernode.member.MemberInformation;
 import com.thenet.discoverynode.DiscoveryNode;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class ClusterMembershipListener  implements MembershipListener {
 
     private MemberInformation getMemberInformation(final MembershipEvent membershipEvent) {
        return new MemberInformation(
-                (AbstractNode.NODETYPE) getMemberValue(membershipEvent, MemberAttributeType.NODE_TYPE),
+                (AbstractServerNode.NODETYPE) getMemberValue(membershipEvent, MemberAttributeType.NODE_TYPE),
                 (String) getMemberValue(membershipEvent, MemberAttributeType.NODE_NAME),
                 (Integer) getMemberValue(membershipEvent, MemberAttributeType.NODE_VERSION),
                 (List<String>) getMemberValue(membershipEvent, MemberAttributeType.NODE_TOPICS));

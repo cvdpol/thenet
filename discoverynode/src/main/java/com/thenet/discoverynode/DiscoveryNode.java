@@ -1,6 +1,6 @@
 package com.thenet.discoverynode;
 
-import com.thenet.abstractnode.member.MemberInformation;
+import com.thenet.abstractservernode.member.MemberInformation;
 import com.thenet.abstractservernode.AbstractServerNode;
 import com.thenet.discoverynode.listener.ClusterMembershipListener;
 

@@ -6,21 +6,22 @@ import com.hazelcast.config.MemberAttributeConfig;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.MembershipListener;
-import com.thenet.abstractnode.member.MemberAttributeType;
+import com.thenet.abstractnode.AbstractNode;
+import com.thenet.abstractservernode.member.MemberAttributeType;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class AbstractServerNode {
+public class AbstractServerNode extends AbstractNode {
 
     private static final Logger LOGGER = Logger.getLogger(AbstractServerNode.class.getClass().getName());
 
     private HazelcastInstance instance;
 
     public enum NODETYPE {
-        GATEWAY, DISCOVERY, DATA
+        SERVICE, DISCOVERY, DATA, GATEWAY
     }
 
     public AbstractServerNode(final NODETYPE nodeType, final String name, final Integer version,

@@ -1,18 +1,18 @@
-package com.thenet.abstractnode.member;
+package com.thenet.abstractservernode.member;
 
-import com.thenet.abstractnode.AbstractNode;
+import com.thenet.abstractservernode.AbstractServerNode;
 
 import java.util.List;
 
 public class MemberInformation {
-    AbstractNode.NODETYPE nodetype;
+    AbstractServerNode.NODETYPE nodetype;
 
     private String name;
     private Integer version;
 
     private List<String> subscribedTopics;
 
-    public MemberInformation(final AbstractNode.NODETYPE nodetype,
+    public MemberInformation(final AbstractServerNode.NODETYPE nodetype,
                              final String name, final Integer version,
                              final List<String> subscribedTopics) {
         this.nodetype = nodetype;
@@ -21,7 +21,7 @@ public class MemberInformation {
         this.subscribedTopics = subscribedTopics;
     }
 
-    public AbstractNode.NODETYPE getNodetype() {
+    public AbstractServerNode.NODETYPE getNodetype() {
         return nodetype;
     }
 
