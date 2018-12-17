@@ -14,8 +14,15 @@ public class DiscoveryNode extends AbstractServerNode {
     public DiscoveryNode(final String name, final Integer version) {
         super(NODETYPE.DISCOVERY, name, version, Arrays.asList(TOPIC_DISCOVERY));
 
-        addMembershipListener(new ClusterMembershipListener(this));
+        //addMembershipListener(new ClusterMembershipListener(this));
+
+        getInstance().getCluster().addMembershipListener(new ClusterMembershipListener(this));
+
+
     }
+
+//    public void addMembershipListener(MembershipListener membershipListener) {
+//    }
 
     public void memberAdd(MemberInformation memberInformation){};
     public void memberRemoved(MemberInformation memberInformation){};

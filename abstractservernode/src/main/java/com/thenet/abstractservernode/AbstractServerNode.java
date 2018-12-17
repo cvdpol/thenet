@@ -2,14 +2,14 @@ package com.thenet.abstractservernode;
 
 
 import com.hazelcast.config.Config;
-import com.hazelcast.config.MemberAttributeConfig;
 import com.hazelcast.core.*;
 import com.thenet.abstractnode.AbstractNode;
 import com.thenet.abstractnode.domain.Call;
-import com.thenet.abstractservernode.member.MemberAttributeType;
+import com.thenet.abstractservernode.member.MemberConfig;
 
 import java.util.*;
 import java.util.logging.Logger;
+
 
 public class AbstractServerNode extends AbstractNode {
 
@@ -26,7 +26,7 @@ public class AbstractServerNode extends AbstractNode {
     public AbstractServerNode(final NODETYPE nodeType, final String name, final Integer version,
                               final List<String> topics) {
         Config cfg = new Config();
-        cfg.setMemberAttributeConfig(createMemberAttributeConfig(nodeType, name, version, topics));
+        cfg.setMemberAttributeConfig(MemberConfig.createMemberAttributeConfig(nodeType, name, version, topics));
         instance = Hazelcast.newHazelcastInstance(cfg);
 
         // Create topic for responses
@@ -35,6 +35,10 @@ public class AbstractServerNode extends AbstractNode {
         if (topics!=null) {
             createTopics(topics);
         }
+    }
+
+    protected HazelcastInstance getInstance() {
+        return instance;
     }
 
     private void createTopics(List<String> topics) {
@@ -52,24 +56,18 @@ public class AbstractServerNode extends AbstractNode {
         return RESPONSE_TOPIC;
     }
 
-    public void addMembershipListener(MembershipListener membershipListener) {
-        instance.getCluster().addMembershipListener(membershipListener);
-    }
-
-    protected HazelcastInstance getInstance() {
-        return instance;
-    }
-
-    protected List<?> send(Call call) {
-        ITopic<Call> topicInstance = getInstance().getReliableTopic(call.getTopic());
-        topicInstance.publish(call);
-
-
-        return new ArrayList<>();
-    }
-
 
     protected void onMessage(Message<Call> call){};
+
+    protected void sendRequest(Call call) {
+        ITopic<Call> topicInstance = getInstance().getReliableTopic(call.getTopic());
+        topicInstance.publish(call);
+    }
+
+    protected void sendResponse(Message<Call> call) {
+        ITopic<Call> topicInstance = getInstance().getReliableTopic(call.getMessageObject().getSource());
+        topicInstance.publish(call.getMessageObject());
+    }
 
     private static class MessageListenerImpl implements MessageListener<Call> {
 
@@ -82,33 +80,6 @@ public class AbstractServerNode extends AbstractNode {
         public void onMessage(Message<Call> call) {
             abstractServerNode.onMessage(call);
         }
-    }
-
-
-
-    private MemberAttributeConfig createMemberAttributeConfig(final NODETYPE nodeType,
-                                                              final String name, final Integer version,
-                                                              final List<String> topics) {
-
-        Map<String, Object> nodeAttributes = new HashMap<>();
-        nodeAttributes.put(MemberAttributeType.NODE_TYPE.name(), nodeType);
-        nodeAttributes.put(MemberAttributeType.NODE_NAME.name(), name);
-        nodeAttributes.put(MemberAttributeType.NODE_VERSION.name(), version);
-
-        if (topics!=null) {
-            nodeAttributes.put(MemberAttributeType.NODE_TOPICS.name(), topics);
-        }
-
-        MemberAttributeConfig memberAttributeConfig = new MemberAttributeConfig();
-        memberAttributeConfig.setAttributes(nodeAttributes);
-
-        return memberAttributeConfig;
-    }
-
-
-    protected void sendResponse(Message<Call> call) {
-        ITopic<Call> topicInstance = getInstance().getReliableTopic(call.getMessageObject().getSource());
-        topicInstance.publish(call.getMessageObject());
     }
 
 }
